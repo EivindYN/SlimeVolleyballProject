@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Master : MonoBehaviourPun
-{
+public class Master : MonoBehaviourPun {
     public GameObject[] playersArray = new GameObject[4];
     public List<GameObject> playerEyes = new List<GameObject>();
-    
+
     public GameObject resultText;
     public GameObject scorePanels;
     public GameObject background;
@@ -95,6 +94,9 @@ public class Master : MonoBehaviourPun
             if (playersArray[n].GetComponent<Controller>() != null) {
                 playersArray[n].GetComponent<Controller>().jumptimer = 0.5f;
                 playersArray[n].GetComponent<Controller>().carefulServing = true;
+            }
+            if (playersArray[n].GetComponent<SlimeMagic>() != null) {
+                playersArray[n].GetComponent<SlimeMagic>().mana = 100f;
             }
         }
         resultText.GetComponent<Text>().text = "";

@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PhotonManager : MonoBehaviourPunCallbacks
-{
+public class PhotonManager : MonoBehaviourPunCallbacks {
     public static int id;
     public static byte playerAmount = 2;
 
@@ -25,9 +24,14 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     float manaDuration = 1f;
     float offlineTimer = 0;
     float offlineDuration = 1f;
+    float shaderpornTimer = 0;
+    float shaderpornDuration = 1f;
 
     public static bool manaMode;
     public static bool offlineMode;
+    public static bool shaderpornMode;
+
+    public Material shaderMat;
     void Update() {
         if (Input.GetKey(KeyCode.R)) {
             resetTimer += Time.deltaTime;
@@ -58,6 +62,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             }
         } else {
             offlineTimer = 0;
+        }
+        if (Input.GetKey(KeyCode.P)) {
+            shaderpornTimer += Time.deltaTime;
+            if (shaderpornTimer > shaderpornDuration) {
+                shaderpornTimer = 0;
+                GameObject.FindGameObjectWithTag("Ball").GetComponent<SpriteRenderer>().material = shaderMat;
+            }
+        } else {
+            shaderpornTimer = 0;
         }
     }
 
