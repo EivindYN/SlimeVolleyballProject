@@ -73,10 +73,31 @@ public class SlimeMagic : MonoBehaviourPun {
         master.ball.transform.position = ballPos;
         master.ballRigidBody.velocity = ballVel;
         switch (spellID) {
-            case 0: master.ballRigidBody.velocity *= -1; break;
+            case 0: StartCoroutine(flipBallVelocity());
+                    break;
             case 1: float newVelY = Mathf.Max(master.ballRigidBody.velocity.y + 5f, 5f);
                     master.ballRigidBody.velocity = new Vector2(master.ballRigidBody.velocity.x, newVelY); break;
             case 2: master.ballRigidBody.velocity = new Vector2(0,master.ballRigidBody.velocity.y); break;
         }
+    }
+
+    IEnumerator flipBallVelocity() {
+        Vector2 startVel = master.ballRigidBody.velocity;
+        float timer = 0f;
+        float duration = 0.3f;
+        float initialGravity = master.ballRigidBody.gravityScale;
+        master.ballRigidBody.gravityScale = 0f;
+        while (timer < duration) {
+            float delta = Time.deltaTime;
+            timer += delta;
+            if (timer > duration) {
+                delta -= timer - duration;
+            }
+            master.ballRigidBody.velocity -= startVel * delta * (2f / duration);
+
+            yield return null;
+        }
+
+        master.ballRigidBody.gravityScale = initialGravity;
     }
 }
