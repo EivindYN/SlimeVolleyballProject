@@ -26,6 +26,8 @@ public class Master : MonoBehaviourPun {
     private int voteResetCount = 0;
     public int lastWinner;
 
+    private int winMod = -1;
+
     private GameObject _ball;
     [HideInInspector]
     public GameObject ball {
@@ -115,7 +117,11 @@ public class Master : MonoBehaviourPun {
         }
 
         points = new int[2];
-        Reset(0);
+        if (winMod == -1){
+            winMod = Random.Range(0,2);
+        }
+        Reset(winMod % 2);
+        winMod += 1;
         playerWon = false;
         voteResetCount = 0;
         background.GetComponent<SpriteRenderer>().sortingOrder = -Mathf.Abs(background.GetComponent<SpriteRenderer>().sortingOrder);
